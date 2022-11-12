@@ -1,0 +1,1037 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.14.0/css/selectize.bootstrap5.css"
+    integrity="sha512-QomP/COM7vFCHcVHpDh/dW9oDyg44VWNzgrg9cG8T2cYSXPtqkQK54WRpbqttfo0MYlwlLUz3EUR+78/aSbEIw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<div id="alertD" class="alert alert-danger fade show hide">
+    You must select a year!
+</div>
+<div id="alertS" class="alert alert-success alert-dismissible fade show hide">
+    Success! Click on one of the tab to view.
+</div>
+<!-- 'NavBar'/ Header -->
+<div class="header">
+    <nav class="navbar navbar-light">
+        <div class="container-fluid" style="padding:0px 10px 0px 10px;">
+            <div class="container-fluid" style="padding:0px 0px 0px 0px;background-color:#66099E;">
+                <a
+                    style="font-weight:900;font-size:large;color:white;padding-left:10px;padding-top:10px;display:inline-block;">Customer
+                    Transition Plan Assessment Dashboard</a>
+                <img src="https://cdn.asp.events/CLIENT_1LOD_F9DE55F6_E6B7_1AAE_E3608C9B5A44987C/sites/1LOD/media/libraries/1lod-summit-2020-delegate-logos/Natwest-Markets-Logo.png"
+                    alt="" width="50" height="45" style="float:right"></img>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<!-- Side Panel -->
+<div class="row" style="margin-left:10px; margin-right: 10px; margin-top:20px;">
+    <div class="col-4" style="background-color:#7937A2;border-radius:10px;">
+        <!--  Side Bar - Title  -->
+        <p class="mt-2 mb-3 selector-title">
+            <span data-bs-toggle="popover" data-bs-content="Select a company below to view insights!"
+                data-bs-trigger="hover">Client Selector</span>
+        </p>
+        <form id="form">
+            <!--  Company Name - Compulsory -->
+            <input class="form-control form-select-sm mb-4" list="issuerName" id="issuerNameList"
+                placeholder="Company A" required>
+            <datalist id="issuerName"></datalist>
+
+            <!--  Year - Compulsory  -->
+            <select class="form-select form-select-sm mb-4" required="required" id="year" placeholder="Year"
+                aria-label="Year">
+                <option selected>Year</option>
+            </select>
+
+            <!--  Sector - Optional filter  -->
+            <select class="form-select form-select-sm mb-4" id="sector" aria-label="Sector">
+                <option selected> Sector </option>
+            </select>
+
+            <!--  Sub-sector - Optional filter  -->
+            <select class="form-select form-select-sm mb-4" id="sub_sector" aria-label="Sub-Sector">
+                <option selected> Sub-Sector </option>
+            </select>
+
+            <!--  Country - Optional filter  -->
+            <select class="form-select form-select-sm mb-4" id="country" aria-label="Country">
+                <option selected> Country </option>
+            </select>
+
+            <!--  Company Name - Comparison Optional filter -->
+            <input class="form-control form-select-sm mb-4" list="comparisonName" id="comparisonNameList"
+                placeholder="Comparison Company">
+            <datalist id="comparisonName"></datalist>
+            <!--  Submit  -->
+            <button type="submit" class="btn btn-outline-light">Submit</button>
+        </form>
+    </div>
+
+    <!-- 4 Buttons Section -->
+    <div class="col-8">
+
+        <!-- Button trigger modal -->
+        <div class="btn-group mt-0 d-flex justify-content-center" data-bs-toggle="popover"
+            data-bs-content="Click on one of the buttons to view emissions performance!" data-bs-trigger="hover"
+            role="group">
+            <button type="button" class="btn btn-sm" style="background-color:#66099E;color:white;border-color:white;"
+                data-bs-toggle="modal" data-bs-target="#currentEmissions">Current Emissions</button>
+            <button type="button" class="btn btn-sm" style="background-color:#66099E;color:white;border-color:white;"
+                data-bs-toggle="modal" data-bs-target="#emissionReductionTarget">Emission Reduction Target</button>
+            <button type="button" class="btn btn-sm" style="background-color:#66099E;color:white;border-color:white;"
+                data-bs-toggle="modal" data-bs-target="#transitionPlans">Transition Plans</button>
+            <button type="button" class="btn btn-sm" style="background-color:#66099E;color:white;border-color:white;"
+                data-bs-toggle="modal" data-bs-target="#comparison">Comparison</button>
+        </div>
+
+        <!-- Modal for 'Comparison' -->
+        <div class="modal fade" id="comparison" tabindex="-1" aria-labelledby="emissionReductionTargetLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="emissionReductionTargetLabel">Comparison</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="container transition-plans-score-box mb-4">
+                            <div class="row pt-3 pb-3">
+                                <div class="col d-flex justify-content-center">
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <p class="transition-plans-score-box-text">Current Company</p>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <p class="transition-plans-score-box-text">Comparison Company</p>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <p class="transition-plans-score-box-text">Performance vs Peers</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="question-no-border">[1] Current Emissions Section</p>
+                        <!-- Verified Question -->
+                        <div class="container mb-4 question-box">
+                            <div class="row pt-3 pb-3">
+                                <div class="col d-flex justify-content-center">
+                                    <p class="question">Have your scope 1-3 emissions been verified by a third party?
+                                    </p>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <div class="purple-circle align-self-center" id="Q3_1"></div>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <div class="purple-circle align-self-center" id="Q3_other"></div>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <p class="percent align-self-center" id="Q3Peer_1"></p>
+                                    <p class="align-self-center peer-text">of peers are verified by a third party</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Biodiversity Question -->
+                        <div class="container mb-4 question-box">
+                            <div class="row pt-3 pb-3">
+                                <div class="col d-flex justify-content-center">
+                                    <p class="question">Does the company have an active program to support increasing
+                                        green space or promote biodiversity?</p>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <div class="purple-circle align-self-center" id="Q4_1"></div>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <div class="purple-circle align-self-center" id="Q4_other"></div>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <p class="percent align-self-center" id="Q4Peer_1"></p>
+                                    <p class="align-self-center peer-text">of peers have an active program</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="question-no-border">[2] Emissions Reduction Target Section</p>
+
+                        <!--  Medium Term Scope 1 - 2 Target  -->
+                        <div class="container mb-4 question-box">
+                            <div class="row pt-3 pb-3">
+                                <div class="col d-flex justify-content-center">
+                                    <p class="question">What does your medium term (5 - 10 Years) Scope 1 - 2 target
+                                        equate to in % reduction?</p>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <p class="align-self-center peer-text" id="Q5_1"></p>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <p class="align-self-center peer-text" id="Q5_other"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--  Medium Term Scope 3 TargetAdvantage Energy Ltd.  -->
+                        <div class="container mb-4 question-box">
+                            <div class="row pt-3 pb-3">
+                                <div class="col d-flex justify-content-center">
+                                    <p class="question">What does your medium term (5 - 10 Years) target for reduction
+                                        in Scope 3 Downstream emissions and Upstream emissions?</p>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <p class="align-self-center peer-text" id="Q6_1"></p>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <p class="align-self-center peer-text" id="Q6_other"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Long Term Net Zero Target -->
+                        <div class="container mb-4 question-box">
+                            <div class="row pt-3 pb-3">
+                                <div class="col d-flex justify-content-center">
+                                    <p class="question">Do you have a long term (20 - 30 Years) net zero target /
+                                        commitment?</p>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <div class="purple-circle align-self-center" id="Q7_1"></div>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <div class="purple-circle align-self-center" id="Q7_other"></div>
+                                </div>
+
+                                <div class="col d-flex justify-content-center">
+                                    <p class="percent align-self-center" id="Q7Peer_1"></p>
+                                    <p class="align-self-center peer-text">of peers have an active program</p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <p class="question-no-border">[3] Transition Plans Section</p>
+
+                        <!--  Do you have a low carbon transition plan?  -->
+                        <div class="container mb-4 question-box">
+                            <div class="row pt-3 pb-3">
+                                <div class="col d-flex justify-content-center">
+                                    <p class="question">Do you have a low carbon transition plan?&nbsp;&nbsp;&nbsp;</p>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <h5 class="align-self-center"><span class="badge" id="Q8_1"></span></h5>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <h5 class="align-self-center"><span class="badge" id="Q8_other"></span></h5>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <p class="percent align-self-center" id="Q8Peer_1"></p>
+                                    <p class="align-self-center peer-text">of peers have an established low carbon
+                                        transition plan</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--  Do you provide incentives to your senior leadership team 
+                    for the management of climate related issues?  -->
+                        <div class="container mb-4 question-box">
+                            <div class="row pt-3 pb-3">
+                                <div class="col d-flex justify-content-center">
+                                    <p class="question">Do you provide incentives to your senior leadership team for the
+                                        management of climate related issues?</p>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <div class="purple-circle align-self-center" id="Q9_1"></div>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <div class="purple-circle align-self-center" id="Q9_other"></div>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <p class="percent align-self-center" id="Q9Peer_1"></p>
+                                    <p class="align-self-center peer-text">of peers have such incentive programs</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--  Do you set targets for the production or consumption of renewable energy?  -->
+                        <div class="container mb-4 question-box">
+                            <div class="row pt-3 pb-3">
+                                <div class="col d-flex justify-content-center">
+                                    <p class="question">Do you set targets for the production or consumption of
+                                        renewable energy?</p>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <div class="purple-circle align-self-center" id="Q10_1"></div>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <div class="purple-circle align-self-center" id="Q10_other"></div>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <p class="percent align-self-center" id="Q10Peer_1"></p>
+                                    <p class="align-self-center peer-text">of peers set targets related to renewable
+                                        energy</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--  Do you engage with your value chain on climate related issues?  -->
+                        <div class="container mb-4 question-box">
+                            <div class="row pt-3 pb-3">
+                                <div class="col d-flex justify-content-center">
+                                    <p class="question">Do you engage with your value chain on climate related issues?
+                                    </p>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <div class="purple-circle align-self-center" id="Q11_1"></div>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <div class="purple-circle align-self-center" id="Q11_other"></div>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <p class="percent align-self-center" id="Q11Peer_1"></p>
+                                    <p class="align-self-center peer-text">of peers engage with their value chain</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--  Target efficient energy  -->
+                        <div class="container mb-4 question-box">
+                            <div class="row pt-3 pb-3">
+                                <div class="col d-flex justify-content-center">
+                                    <p class="question">Does you set targets for production of more energy efficient or
+                                        environmentally friendly products (e.g. recyclable)?</p>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <div class="purple-circle align-self-center" id="Q12_1"></div>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <div class="purple-circle align-self-center" id="Q12_other"></div>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <p class="percent align-self-center" id="Q12Peer_1"></p>
+                                    <p class="align-self-center peer-text">of peers set targets related to energy
+                                        efficient products Percentile</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--  Suppliers  -->
+                        <div class="container mb-4 question-box">
+                            <div class="row pt-3 pb-3">
+                                <div class="col d-flex justify-content-center">
+                                    <p class="question">Does your transition plan include direct engagement with
+                                        suppliers to drive them to reduce their emissions, or even switching to
+                                        suppliers producing low carbon materials?</p>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <div class="purple-circle align-self-center" id="Q13_1"></div>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <div class="purple-circle align-self-center" id="Q13_other"></div>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <p class="percent align-self-center" id="Q13Peer_1"></p>
+                                    <p class="align-self-center peer-text">of peers engage their suppliers</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--  Influence pulic policy  -->
+                        <div class="container mb-4 question-box">
+                            <div class="row pt-3 pb-3">
+                                <div class="col d-flex justify-content-center">
+                                    <p class="question">
+                                        Do you engage in activities that influence public policy on cimate related
+                                        issues to support net zero aligned transition through any of the following?
+                                        <span class="text-muted"
+                                            style="font-weight:normal; font-size:12px; display:block;">Direct engagement
+                                            with (1) policy makers; (2) funding research organizations; (3)trade
+                                            associations</span>
+                                    </p>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <div class="purple-circle align-self-center" id="Q14_1"></div>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <div class="purple-circle align-self-center" id="Q14_other"></div>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <p class="percent align-self-center" id="Q14Peer_1"></p>
+                                    <p class="align-self-center peer-text">of peers engage in such activites</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Modal for 'Current Emission' -->
+        <div class="modal fade" id="currentEmissions" tabindex="-1" aria-labelledby="currentEmissionsLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="currentEmissionsLabel">Current Emissions</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!--  Scope 1 & 2 table  -->
+                        <div class="accordion" id="accordionExample">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#q1" aria-expanded="true" aria-controls="q1">
+                                        <p class="question-no-border">What are your absolute Scope 1-2 emissions?</p>
+                                    </button>
+                                </h2>
+                                <div id="q1" class="accordion-collapse collapse show" aria-labelledby="headingOne">
+                                    <div class="accordion-body" id="Q1Table">
+                                        <img src="https://firebasestorage.googleapis.com/v0/b/capstone-adf24.appspot.com/o/NA_images%2Fq1_NA.jpg?alt=media&token=8ba876ec-6367-4d49-94a4-3a8a26619812"
+                                            class="mx-auto d-block" alt="Scope1&2" height="600px" width="900px"
+                                            id="q1_img"></img>
+                                        <h5><span class="badge mt-2" id="q1_pg"></span></h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--  Scope 3 table  -->
+                        <div class="accordion" id="accordionExample">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#q2" aria-expanded="true" aria-controls="q2">
+                                        <p class="question-no-border">What are your absolute Scope 3 emissions?</p>
+                                    </button>
+                                </h2>
+                                <div id="q2" class="accordion-collapse collapse show" aria-labelledby="headingOne">
+                                    <div class="accordion-body" id="Q2Table">
+                                        <img src="https://firebasestorage.googleapis.com/v0/b/capstone-adf24.appspot.com/o/NA_images%2Fq2_NA.jpg?alt=media&token=6947873b-f04e-462e-906d-5e243bc0753c"
+                                            class="mx-auto d-block" alt="Scope3" height="600px" width="900px"
+                                            id="q2_img"></img>
+                                        <h5><span class="badge mt-2" id="q2_pg"></span></h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="background-color: white">
+                            <div class="row pt-3 pb-3" style="background-color: white">
+                                <div class="col d-flex justify-content-center" style="background-color: white">
+                                </div>
+                                <div class="col d-flex justify-content-center" style="background-color: white">
+                                    <br>Value</br>
+                                </div>
+                                <div class="col d-flex justify-content-center" style="background-color: white">
+                                    <br>Performance vs Peers</br>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Verified Question -->
+                        <div class="container mb-4 question-box">
+                            <div class="row pt-3 pb-3">
+                                <div class="col d-flex justify-content-center">
+                                    <p class="question">Have your scope 1-3 emissions been verified by a third party?
+                                    </p>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <div class="purple-circle align-self-center" id="Q3"></div>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <p class="percent align-self-center" id="Q3Peer"></p>
+                                    <p class="align-self-center peer-text">of peers are verified by a third party</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Biodiversity Question -->
+                        <div class="container mb-4 question-box">
+                            <div class="row pt-3 pb-3">
+                                <div class="col d-flex justify-content-center">
+                                    <p class="question">Does the company have an active program to support increasing
+                                        green space or promote biodiversity?</p>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <div class="purple-circle align-self-center" id="Q4"></div>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <p class="percent align-self-center" id="Q4Peer"></p>
+                                    <p class="align-self-center peer-text">of peers have an active program</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-sm btn-secondary"
+                                data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal for 'Emission Reduction Target' -->
+        <div class="modal fade" id="emissionReductionTarget" tabindex="-1"
+            aria-labelledby="emissionReductionTargetLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="emissionReductionTargetLabel">Emission Reduction Target</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <!--  Medium Term Scope 1 - 2 Target  -->
+                        <div class="container mb-4 question-box">
+                            <div class="row pt-3 pb-3">
+                                <div class="col d-flex justify-content-center">
+                                    <p class="question">What does your medium term (5 - 10 Years) Scope 1 - 2 target
+                                        equate to in % reduction?</p>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <p class="align-self-center peer-text" id="Q5"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--  Medium Term Scope 3 TargetAdvantage Energy Ltd.  -->
+                        <div class="container mb-4 question-box">
+                            <div class="row pt-3 pb-3">
+                                <div class="col d-flex justify-content-center">
+                                    <p class="question">What does your medium term (5 - 10 Years) target for reduction
+                                        in Scope 3 Downstream emissions and Upstream emissions?</p>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <p class="align-self-center peer-text" id="Q6"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="background-color: white">
+                            <div class="row pt-3 pb-3" style="background-color: white">
+                                <div class="col d-flex justify-content-center" style="background-color: white">
+                                </div>
+                                <div class="col d-flex justify-content-center" style="background-color: white">
+                                    <br>Value</br>
+                                </div>
+                                <div class="col d-flex justify-content-center" style="background-color: white">
+                                    <br>Performance vs Peers</br>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Long Term Net Zero Target -->
+                        <div class="container mb-4 question-box">
+                            <div class="row pt-3 pb-3">
+                                <div class="col d-flex justify-content-center">
+                                    <p class="question">Do you have a long term (20 - 30 Years) net zero target /
+                                        commitment?</p>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <div class="purple-circle align-self-center" id="Q7"></div>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <p class="percent align-self-center" id="Q7Peer"></p>
+                                    <p class="align-self-center peer-text">of peers have an active program</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal for 'Transition Plans' -->
+        <div class="modal fade" id="transitionPlans" tabindex="-1" aria-labelledby="transitionPlansLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="transitionPlansLabel">Transition Plans</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" style="padding-top:0px;padding-bottom:0px;">
+                        <div style="background-color: white">
+                            <div class="row" style="background-color: white">
+                                <div class="col d-flex justify-content-center" style="background-color: white">
+                                </div>
+                                <div class="col d-flex justify-content-center" style="background-color: white">
+                                    <br>Value</br>
+                                </div>
+                                <div class="col d-flex justify-content-center" style="background-color: white">
+                                    <br>Performance vs Peers</br>
+                                </div>
+                            </div>
+                        </div>
+                        <!--  Overall Score  -->
+                        <div class="container transition-plans-score-box mb-4">
+                            <div class="row pt-3 pb-3">
+                                <div class="col d-flex justify-content-center">
+                                    <p class="transition-plans-score-box-text">Overall Transition Plans Score</p>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <p class="transition-plans-score-box-text" id="score">0 out of 7</p>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <p class="transition-plans-score-box-text" id="percentile">0 Percentile</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--  Do you have a low carbon transition plan?  -->
+                        <div class="container mb-4 question-box">
+                            <div class="row pt-3 pb-3">
+                                <div class="col d-flex justify-content-center">
+                                    <p class="question">Do you have a low carbon transition plan?&nbsp;&nbsp;&nbsp;</p>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <h5 class="align-self-center"><span class="badge" id="Q8"></span></h5>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <p class="percent align-self-center" id="Q8Peer"></p>
+                                    <p class="align-self-center peer-text">of peers have an established low carbon
+                                        transition plan</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--  Do you provide incentives to your senior leadership team 
+                    for the management of climate related issues?  -->
+                        <div class="container mb-4 question-box">
+                            <div class="row pt-3 pb-3">
+                                <div class="col d-flex justify-content-center">
+                                    <p class="question">Do you provide incentives to your senior leadership team for the
+                                        management of climate related issues?</p>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <div class="purple-circle align-self-center" id="Q9"></div>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <p class="percent align-self-center" id="Q9Peer"></p>
+                                    <p class="align-self-center peer-text">of peers have such incentive programs</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--  Do you set targets for the production or consumption of renewable energy?  -->
+                        <div class="container mb-4 question-box">
+                            <div class="row pt-3 pb-3">
+                                <div class="col d-flex justify-content-center">
+                                    <p class="question">Do you set targets for the production or consumption of
+                                        renewable energy?</p>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <div class="purple-circle align-self-center" id="Q10"></div>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <p class="percent align-self-center" id="Q10Peer"></p>
+                                    <p class="align-self-center peer-text">of peers set targets related to renewable
+                                        energy</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--  Do you engage with your value chain on climate related issues?  -->
+                        <div class="container mb-4 question-box">
+                            <div class="row pt-3 pb-3">
+                                <div class="col d-flex justify-content-center">
+                                    <p class="question">Do you engage with your value chain on climate related issues?
+                                    </p>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <div class="purple-circle align-self-center" id="Q11"></div>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <p class="percent align-self-center" id="Q11Peer"></p>
+                                    <p class="align-self-center peer-text">of peers engage with their value chain</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--  Target efficient energy  -->
+                        <div class="container mb-4 question-box">
+                            <div class="row pt-3 pb-3">
+                                <div class="col d-flex justify-content-center">
+                                    <p class="question">Does you set targets for production of more energy efficient or
+                                        environmentally friendly products (e.g. recyclable)?</p>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <div class="purple-circle align-self-center" id="Q12"></div>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <p class="percent align-self-center" id="Q12Peer"></p>
+                                    <p class="align-self-center peer-text">of peers set targets related to energy
+                                        efficient products Percentile</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--  Suppliers  -->
+                        <div class="container mb-4 question-box">
+                            <div class="row pt-3 pb-3">
+                                <div class="col d-flex justify-content-center">
+                                    <p class="question">Does your transition plan include direct engagement with
+                                        suppliers to drive them to reduce their emissions, or even switching to
+                                        suppliers producing low carbon materials?</p>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <div class="purple-circle align-self-center" id="Q13"></div>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <p class="percent align-self-center" id="Q13Peer"></p>
+                                    <p class="align-self-center peer-text">of peers engage their suppliers</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--  Influence pulic policy  -->
+                        <div class="container mb-4 question-box">
+                            <div class="row pt-3 pb-3">
+                                <div class="col d-flex justify-content-center">
+                                    <p class="question">
+                                        Do you engage in activities that influence public policy on cimate related
+                                        issues to support net zero aligned transition through any of the following?
+                                        <span class="text-muted"
+                                            style="font-weight:normal; font-size:12px; display:block;">Direct engagement
+                                            with (1) policy makers; (2) funding research organizations; (3)trade
+                                            associations</span>
+                                    </p>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <div class="purple-circle align-self-center" id="Q14"></div>
+                                </div>
+                                <div class="col d-flex justify-content-center">
+                                    <p class="percent align-self-center" id="Q14Peer"></p>
+                                    <p class="align-self-center peer-text">of peers engage in such activites</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--  Company Details Card  -->
+        <div class="card d-flex justify-content-center mt-4">
+            <div class="card-header" style="background-color:#884FAC;color:white;">
+                Company Details
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item pb-3 pt-3" style="color:#44185F;background-color:#E1D5EA;" id="companyName">
+                    Company Name:</li>
+                <li class="list-group-item pb-3 pt-3" style="color:#44185F;background-color:#E1D5EA;" id="companyISIN">
+                    ISIN:</li>
+                <li class="list-group-item pb-3 pt-3" style="color:#44185F;background-color:#E1D5EA;" id="reportYear">
+                    Report Year:</li>
+                <li class="list-group-item pb-3 pt-3" style="color:#44185F;background-color:#E1D5EA;"
+                    id="companySector">Sector:; Sub-Sector:</li>
+                <li class="list-group-item pb-3 pt-3" style="color:#44185F;background-color:#E1D5EA;"
+                    id="companyCountry">Country:</li>
+                <li class="list-group-item pb-3 pt-3" style="color:#44185F;background-color:#E1D5EA;">Sustainability
+                    Report: <a class="card-link" href="" id="link"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    // found: https://firebase.google.com/docs/web/learn-more#libraries-cdn
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-app.js";
+    import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-storage.js";
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyCuL6Faz-5OdMftjlvCk5hEX2qOAULrc5o",
+        authDomain: "capstone-adf24.firebaseapp.com",
+        projectId: "capstone-adf24",
+        storageBucket: "capstone-adf24.appspot.com",
+        messagingSenderId: "703823243413",
+        appId: "1:703823243413:web:055d6e26d8199e0f09939c"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const storage = getStorage(app);
+
+    // Initialize Popover
+    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+    var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+        return new bootstrap.Popover(popoverTriggerEl)
+    });
+
+    // Update Company, Year, Sector, Sub-Sector & Country dropdown & comparator dropdown
+    $.getJSON(getWebAppBackendUrl('/dropdown'), function (data) {
+        // get data
+        var companies = JSON.parse(data["companies"]);
+        var sectors = JSON.parse(JSON.parse(data["sectors"]));
+        sectors = sectors.map(x => x.sector);
+        var sub_sectors = JSON.parse(JSON.parse(data['sub_sectors']));
+        sub_sectors = sub_sectors.map(x => x.sub_sector);
+        var countries = JSON.parse(data['countries']);
+        countries = countries.map(x => x.countries);
+        var years = JSON.parse(data['years']);
+        years = JSON.parse(years);
+        years = years.map(x => x.years);
+
+        // console log
+        console.log("Line 783 companies", companies);
+        console.log("Line 784 sectors", sectors);
+        console.log("Line 785 sub_sectors", sub_sectors);
+        console.log("Line 786 countries", countries);
+        console.log("Line 787 year", years);
+
+        // populate company, sectors, sub_sectors, countries name drop down
+        var issuerNames = Object.keys(companies);
+        issuerNames.sort();
+        sectors.sort();
+        sub_sectors.sort();
+        countries.sort();
+        years.sort(function (a, b) { return b - a });
+        const dropdowns = [issuerNames, sectors, sub_sectors, countries, years, issuerNames];
+        const dropdownNames = ["issuerName", "sector", "sub_sector", "country", "year", "comparisonName"];
+        var count = 0;
+        dropdowns.forEach(dropdown => {
+            dropdown.forEach(name => {
+                var option = document.createElement("option");
+                option.value = name;
+                option.text = name;
+                document.getElementById(dropdownNames[count]).appendChild(option);
+            });
+            count++;
+        });
+    });
+
+    // Update display when select dropdown
+
+    // company related
+    var issuerName = document.getElementById("issuerNameList");
+    issuerName.addEventListener('change', function () {
+        // company card details
+        var companyName = document.getElementById("companyName");
+        var companyISIN = document.getElementById("companyISIN");
+        var reportYear = document.getElementById("reportYear");
+        var companySector = document.getElementById("companySector");
+        var companyCountry = document.getElementById("companyCountry");
+        var url = document.getElementById("link");
+
+        console.log("Line 825 check:", issuerName.value !== "");
+        if (issuerName.value !== "") {
+            // update company card
+            $.getJSON(getWebAppBackendUrl('/company'), function (data) {
+                data = JSON.parse(data["companies"]);
+                data = data[issuerName.value];
+                console.log("Line 831: ", data);
+                companyName.innerHTML = "Company Name: " + issuerName.value + " (Ticker: " + data.Ticker + ")";
+                companyISIN.innerHTML = "ISIN: " + data.ISIN;
+                companySector.innerHTML = "Sector: " + data.GICSSector + "; " + "Sub-Sector: " + data.GICSSubIndustry;
+                companyCountry.innerHTML = "Country: " + data.CountryOfIncorporation;
+                url.innerHTML = "View";
+                url.href = data.URL;
+                url.target = "_blank";
+                url.style.textDecoration = "none";
+            });
+        } else {
+            companyName.innerHTML = "Company Name:";
+            companyISIN.innerHTML = "ISIN:";
+            companySector.innerHTML = "Sector:";
+            companyCountry.innerHTML = "Country:";
+            url.innerHTML = "";
+            url.href = "";
+        }
+    });
+
+    // report year
+    var report = document.getElementById("year");
+    report.addEventListener('change', function () {
+        if (parseInt(report.value)) {
+            reportYear.innerHTML = "Report Year: " + report.value;
+        } else {
+            reportYear.innerHTML = "Report Year: ";
+        }
+    });
+
+    // form
+    var form = document.getElementById("form")
+    form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        if (report.value === "Year") {
+            document.getElementById("alertD").classList.remove('hide');
+            setTimeout(() => {
+                document.getElementById("alertD").classList.add('hide');
+            }, 2000);
+        } else {
+            document.getElementById("alertS").classList.remove('hide');
+            setTimeout(() => {
+                document.getElementById("alertS").classList.add('hide');
+            }, 2000);
+            // table page number
+            var table1Page = document.getElementById('q1_pg');
+            var table2Page = document.getElementById('q2_pg');
+
+            // score & percentile
+            var score = document.getElementById("score");
+            var percentile = document.getElementById("percentile");
+
+            // update questionaires
+            $.getJSON(getWebAppBackendUrl('/question'), function (data) {
+                // get data and filter for the year
+                var all_questions = JSON.parse(data["questions"]);
+                console.log("Line 887: ", all_questions)
+                var questions = all_questions[issuerName.value];
+                console.log('Line 889 questions: ', questions);
+
+                var imgName = issuerName.value;
+                if (issuerName.value.endsWith('.')) {
+                    imgName = issuerName.value.substring(0, issuerName.value.length - 1);
+                }
+
+                if (issuerName.value.includes('/')) {
+                    imgName = issuerName.value.replace('/', '');
+                }
+
+                // image pull q1
+                var path1 = "cropped_pages/1_" + imgName + ".jpg"
+                getDownloadURL(ref(storage, path1)).then((url) => {
+                    // `url` is the download URL for 'images/path'
+                    // inserted into an <img> element
+                    const img1 = document.getElementById('q1_img');
+                    img1.setAttribute('src', url);
+                    table1Page.innerHTML = "Page: " + questions["Q1"].substring(1, questions["Q1"].length - 1);
+                }).catch((error) => {
+                    // Handle any errors
+                    console.log("error img1", error);
+                    document.getElementById('q1_img').setAttribute("src", "https://firebasestorage.googleapis.com/v0/b/capstone-adf24.appspot.com/o/NA_images%2Fq1_NA.jpg?alt=media&token=8ba876ec-6367-4d49-94a4-3a8a26619812");
+                    table1Page.innerHTML = "";
+                });
+
+                // image pull q2  
+                var path2 = "cropped_pages/2_" + imgName + ".jpg"
+                getDownloadURL(ref(storage, path2)).then((url) => {
+                    // `url` is the download URL for 'images/path'
+                    // inserted into an <img> element
+                    const img2 = document.getElementById('q2_img');
+                    img2.setAttribute('src', url);
+                    table2Page.innerHTML = "Page: " + questions["Q2"].substring(1, questions["Q2"].length - 1);
+                }).catch((error) => {
+                    // Handle any errors
+                    console.log("error img2", error);
+                    document.getElementById('q2_img').setAttribute("src", "https://firebasestorage.googleapis.com/v0/b/capstone-adf24.appspot.com/o/NA_images%2Fq2_NA.jpg?alt=media&token=6947873b-f04e-462e-906d-5e243bc0753c");
+                    table2Page.innerHTML = "";
+                });
+
+                // update score        
+                score.innerHTML = questions['score'] + " out of 7";
+                percentile.innerHTML = questions['percentile'] + "th Percentile";
+
+                // update purple circle
+                var questionNum = 3;
+                while (questionNum < 15) {
+                    var val = questions["Q" + questionNum];
+                    if (val === "") {
+                        val = "N.A.";
+                    }
+                    document.getElementById("Q" + questionNum).innerHTML = val;
+                    document.getElementById("Q" + questionNum + "_1").innerHTML = val;
+                    questionNum++;
+                }
+
+                // update peers
+                var sector = document.getElementById("sector");
+                sector = sector.value;
+                var sub_sector = document.getElementById("sub_sector");
+                sub_sector = sub_sector.value;
+                var country = document.getElementById("country");
+                country = country.value;
+                var peerQ = ["Q3", "Q4", "Q7", "Q8", "Q9", "Q10", "Q11", "Q12", "Q13", "Q14"];
+                var filtered_q = [];
+                $.getJSON(getWebAppBackendUrl('/peer'), function (data) {
+                    var peers = JSON.parse(data["questions"]);
+                    console.log('Line 957 peers: ', peers);
+                    peers.forEach(x => {
+                        // console.log(x);
+                        if (x.Year === parseInt(report.value) && sub_sector === "Sub-Sector" && sector === "Sector" && country === "Country") {
+                            filtered_q.push(x);
+                        } else if (x.Year === parseInt(report.value) && sub_sector !== "Sub-Sector" && x.GICSSubIndustry === sub_sector) {
+                            if (country === "Country") {
+                                filtered_q.push(x);
+                            } else if (x.CountryOfIncorporation === country) {
+                                filtered_q.push(x);
+                            }
+                        } else if (x.Year === parseInt(report.value) && sub_sector === "Sub-Sector" && x.GICSSector === sector) {
+                            if (x.CountryOfIncorporation === country) {
+                                filtered_q.push(x);
+                            } else if (country === "Country") {
+                                filtered_q.push(x);
+                            }
+                        } else if (x.Year === parseInt(report.value) && x.CountryOfIncorporation === country) {
+                            filtered_q.push(x);
+                        }
+                    });
+                    peerQ.forEach(q => {
+                        var count = 0;
+                        filtered_q.forEach(fq => {
+                            if (q !== "Q8" && fq[q] === "Yes") {
+                                count++;
+                            } else if (q === "Q8" && fq[q] === "Established Carbon Transition Plan") {
+                                count++;
+                            }
+                        });
+                        var frac = 0;
+                        if (filtered_q.length === 0) {
+                            frac = 0;
+                        } else {
+                            frac = Math.round(count / filtered_q.length * 100);
+                        }
+                        var peer = document.getElementById(q + "Peer");
+                        var peerC = document.getElementById(q + "Peer_1");
+                        peer.innerHTML = frac + "%";
+                        peerC.innerHTML = frac + "%";
+                    })
+                });
+            });
+
+            // update comparison tab
+            var comparator = document.getElementById("comparisonNameList");
+            if (comparator.value) {
+                $.getJSON(getWebAppBackendUrl('/question?year=' + report.value), function (data) {
+                    // get data
+                    var opp = JSON.parse(data["questions"]);
+                    opp = opp[comparator.value];
+                    console.log('Line 969 questions: ', opp);
+                    var compareQ = 3
+                    while (compareQ < 15) {
+                        var v = opp["Q" + compareQ];
+                        if (v === "") {
+                            v = "N.A."
+                        }
+                        document.getElementById("Q" + compareQ + "_other").innerHTML = v;
+                        compareQ++;
+                    }
+                });
+            } else {
+                var compareQ1 = 3
+                while (compareQ1 < 15) {
+                    document.getElementById("Q" + compareQ1 + "_other").innerHTML = "";
+                    compareQ1++;
+                }
+            }
+        }
+    });
+
+</script>
